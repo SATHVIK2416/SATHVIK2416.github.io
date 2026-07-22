@@ -296,6 +296,11 @@ a {
   color: var(--accent);
 }
 
+.live-dot {
+  display: inline-flex;
+  align-items: center;
+}
+
 .live-dot::before {
   content: '';
   display: inline-block;
@@ -303,9 +308,11 @@ a {
   height: 6px;
   background: #ff0000;
   border-radius: 50%;
-  margin-right: 6px;
+  margin-right: 8px;
   box-shadow: 0 0 10px #ff0000;
   animation: blink 2s infinite;
+  flex-shrink: 0;
+  transform: translateY(-1px);
 }
 
 @keyframes blink {
@@ -522,8 +529,9 @@ a {
 .project-card {
   background: var(--card-bg);
   border: 1px solid var(--border-color);
-  padding: 24px;
-  height: 400px;
+  padding: 28px;
+  min-height: 420px;
+  height: auto;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -546,6 +554,7 @@ a {
 
 .project-card:hover h3,
 .project-card:hover p,
+.project-card:hover li,
 .project-card:hover .project-id,
 .project-card:hover .project-cat,
 .project-card:hover .tags span {
@@ -558,7 +567,7 @@ a {
   justify-content: space-between;
   border-bottom: 1px solid var(--border-color);
   padding-bottom: 16px;
-  margin-bottom: auto;
+  margin-bottom: 16px;
 }
 
 .project-id {
@@ -574,7 +583,7 @@ a {
 }
 
 .card-body h3 {
-  font-size: 32px;
+  font-size: 28px;
   font-weight: 800;
   margin-bottom: 8px;
   color: #fff;
@@ -584,13 +593,43 @@ a {
 .card-body p {
   font-size: 14px;
   color: var(--text-muted);
-  margin-bottom: 24px;
+  margin-bottom: 16px;
+  line-height: 1.5;
   transition: color 0.3s linear;
+}
+
+.project-bullets {
+  list-style: none;
+  margin-bottom: 20px;
+  padding: 0;
+}
+
+.project-bullets li {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-bottom: 8px;
+  position: relative;
+  padding-left: 16px;
+  line-height: 1.45;
+  transition: color 0.3s linear;
+}
+
+.project-bullets li::before {
+  content: '•';
+  position: absolute;
+  left: 0;
+  color: var(--accent);
+}
+
+.project-card:hover .project-bullets li::before {
+  color: #000;
 }
 
 .tags {
   display: flex;
+  flex-wrap: wrap;
   gap: 8px;
+  margin-top: auto;
 }
 
 .tags span {
@@ -599,6 +638,36 @@ a {
   padding: 4px 8px;
   color: var(--text-muted);
   transition: border 0.3s linear, color 0.3s linear;
+}
+
+/* Skills & Education Grid Items */
+.skills-group {
+  margin-top: 16px;
+}
+
+.skills-group-title {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--accent);
+  margin-bottom: 8px;
+  text-transform: uppercase;
+}
+
+.skills-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 16px;
+}
+
+.skills-tags span {
+  font-size: 11px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-color);
+  padding: 4px 10px;
+  border-radius: 4px;
+  color: var(--text-main);
 }
 
 /* CONTACT */

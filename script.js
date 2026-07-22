@@ -61,8 +61,12 @@ document.addEventListener('DOMContentLoaded', () => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 const el = entry.target;
-                const targetVal = parseInt(el.getAttribute('data-val'));
-                animateValue(el, 0, targetVal, 1500);
+                const rawVal = el.getAttribute('data-val');
+                if (rawVal) {
+                    const isFloat = rawVal.includes('.');
+                    const targetVal = parseFloat(rawVal);
+                    animateValue(el, 0, targetVal, 1500, isFloat);
+                }
                 statsObserver.unobserve(el);
             }
         });
@@ -70,20 +74,27 @@ document.addEventListener('DOMContentLoaded', () => {
 
     stats.forEach(stat => statsObserver.observe(stat));
 
-    function animateValue(obj, start, end, duration) {
+    function animateValue(obj, start, end, duration, isFloat = false) {
         let startTimestamp = null;
         const step = (timestamp) => {
             if (!startTimestamp) startTimestamp = timestamp;
             const progress = Math.min((timestamp - startTimestamp) / duration, 1);
-            // Ease Out Quart - smoother finish
-            const ease = 1 - Math.pow(1 - progress, 4);
+            const current = progress * (end - start) + start;
 
-            obj.innerHTML = Math.floor(progress * (end - start) + start);
+            if (isFloat) {
+                obj.innerHTML = current.toFixed(2);
+            } else {
+                obj.innerHTML = Math.floor(current) < 10 ? `0${Math.floor(current)}` : Math.floor(current);
+            }
 
             if (progress < 1) {
                 window.requestAnimationFrame(step);
             } else {
-                obj.innerHTML = end < 10 ? `0${end}` : end; // Pad
+                if (isFloat) {
+                    obj.innerHTML = end.toFixed(2);
+                } else {
+                    obj.innerHTML = end < 10 ? `0${end}` : end;
+                }
             }
         };
         window.requestAnimationFrame(step);
